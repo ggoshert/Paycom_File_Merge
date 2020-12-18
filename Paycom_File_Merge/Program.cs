@@ -128,7 +128,7 @@ namespace Paycom_File_Merge
             //client.Port = 25;
             client.Port = 2525;
             //client.Credentials = new System.Net.NetworkCredential(@"afncorp\donotreply", "Alaska1234!");
-            client.Credentials = new System.Net.NetworkCredential(@"dev@afncorp.com", "Alaska1234");
+            client.Credentials = new System.Net.NetworkCredential(@"dev@afncorp.com", "t@llCanary90");
             //for (int i = 0; i < to.Count; i++)
             //{
             //    mailMessage.To.Add(to[i]);
