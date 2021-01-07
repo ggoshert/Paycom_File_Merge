@@ -71,7 +71,7 @@ namespace Paycom_File_Merge
                     dt1.Merge(dt2);
 
                     //Convert Merged Data Table to CSV and write to destination
-                    dt1.DataTableToCSV(destinationFile);
+                    dt1.ToCsv(destinationFile);
 
                     //Archive files
                     List<string> filePaths = new List<string>();

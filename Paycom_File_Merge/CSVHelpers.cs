@@ -130,7 +130,7 @@ namespace Paycom_File_Merge
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < datatable.Columns.Count; i++)
             {
-                sb.Append("\"" + datatable.Columns[i] + "\",");
+                sb.Append("\"" + datatable.Columns[i] + "\"");
                 //if (i < datatable.Columns.Count - 1)
                 //    sb.Append(seperator);
             }
@@ -139,7 +139,7 @@ namespace Paycom_File_Merge
             {
                 for (int i = 0; i < datatable.Columns.Count; i++)
                 {
-                    sb.Append("\"" + dr[i].ToString() + "\",");
+                    sb.Append("\"" + dr[i].ToString() + "\"");
 
                     //if (i < datatable.Columns.Count - 1)
                     //    sb.Append(seperator);
@@ -148,6 +148,41 @@ namespace Paycom_File_Merge
             }
             //return sb.ToString();
             File.WriteAllText(destinationfile, sb.ToString());
+        }
+
+        public static void WriteCsv(this DataTable dt, string path)
+        {
+            using (var writer = new StreamWriter(path))
+            {
+                writer.WriteLine(string.Join(",", dt.Columns.Cast<DataColumn>().Select(dc => dc.ColumnName)));
+                foreach (DataRow row in dt.Rows)
+                {
+                    writer.WriteLine(string.Join(",", row.ItemArray));
+                }
+            }
+        }
+
+        public static void ToCsv(this DataTable inDataTable, string destinationfile, bool inIncludeHeaders = true)
+        {
+            var builder = new StringBuilder();
+            var columnNames = inDataTable.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+            if (inIncludeHeaders)
+                builder.AppendLine(string.Join(",", columnNames));
+            foreach (DataRow row in inDataTable.Rows)
+            {
+                var fields = row.ItemArray.Select(field => field.ToString().WrapInQuotesIfContains(","));
+                builder.AppendLine(string.Join(",", fields));
+            }
+
+            //return builder.ToString();
+            File.WriteAllText(destinationfile, builder.ToString());
+        }
+
+        public static string WrapInQuotesIfContains(this string inString, string inSearchString)
+        {
+            if (inString.Contains(inSearchString))
+                return "\"" + inString + "\"";
+            return inString;
         }
     }
 }
