@@ -162,6 +162,7 @@ namespace Paycom_File_Merge
             }
         }
 
+        //This is the best one to use so far 1/7/2021
         public static void ToCsv(this DataTable inDataTable, string destinationfile, bool inIncludeHeaders = true)
         {
             var builder = new StringBuilder();
